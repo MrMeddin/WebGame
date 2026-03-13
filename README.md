@@ -1,278 +1,119 @@
-# 🎯 Trivia Quiz App - Modern Angular 19+
+# 🎮 WebGame - Casual Games Collection
 
-Eine moderne, vollständig refaktorierte **Allgemeinwissen-Quiz-Anwendung** mit Angular 19+, Standalone Components, Signals und Material 3 Design.
-
----
-
-## 📋 Features
-
-✅ **Open Trivia DB Integration** - Echte Quiz-Fragen von [opentdb.com](https://opentdb.com)  
-✅ **Standalone Components** - Kein Module nötig  
-✅ **Signals & Computed** - State Management ohne RxJS Boilerplate  
-✅ **OnPush ChangeDetection** - Optimale Performance  
-✅ **Material 3 Design** - Modernes UI mit Design Tokens  
-✅ **WCAG AA Accessibility** - Barrierefreie Bedienung  
-✅ **Responsive Design** - Mobile-First Approach  
-✅ **Strict TypeScript** - Keine `any`-Typen  
-✅ **Vitest Setup** - Unit Test Ready  
+Eine moderne Spielesammlung mit Angular 21+, Signals und Material Design.
 
 ---
 
-## ��️ Projektstruktur
+## ✨ Features
 
-```
-src/app/
-├── fundamentale/                    # Core Business Logic
-│   ├── models/
-│   │   ├── quiz.model.ts           # IQuestion, IQuiz, ITriviaQuestion
-│   │   ├── difficulty.enum.ts      # Difficulty Levels
-│   │   └── index.ts
-│   ├── services/
-│   │   ├── trivia-api.service.ts   # Open Trivia DB HTTP Client
-│   │   └── index.ts
-│   ├── repos/
-│   │   ├── quiz.repo.ts            # Quiz Data Mapper (API → Domain)
-│   │   └── index.ts
-│   └── index.ts
-├── shared/                          # Reusable Components & Utils
-│   ├── components/
-│   │   ├── quiz-card.component.ts
-│   │   ├── progress-bar.component.ts
-│   │   └── index.ts
-│   └── index.ts
-├── feature/quiz/                    # Quiz Feature (Lazy Loaded)
-│   ├── components/
-│   │   ├── question.component.ts
-│   │   ├── quiz-result.component.ts
-│   │   └── index.ts
-│   ├── services/
-│   │   ├── quiz.service.ts         # Quiz State Management (Signals)
-│   │   └── index.ts
-│   ├── quiz.component.ts           # Main Container
-│   └── quiz-routing.ts
-├── app.ts                           # Root Component
-├── app.routes.ts                    # Route Configuration
-├── app.config.ts                    # Angular Config + Providers
-└── app.html                         # Root Template
-├── styles/
-│   ├── variables.scss              # Design Tokens
-│   ├── mixins.scss                 # SCSS Utilities
-│   └── index.scss
-└── styles.scss                      # Global Styles
-```
+### Spiele
+
+- **Quiz** - Allgemeinwissen Quiz mit OpenTDB API
+  - Kategorie-Auswahl
+  - Schwierigkeit: Einfach, Mittel, Schwer
+  - Unbegrenzter Modus
+- **Wordle** - Errate das Wort in 6 Versuchen
+- **Memory** - Finde die passenden Paare
+  - 3 Schwierigkeiten: 4x4, 6x6, 8x8
+  - 4 Themen: Emojis, Essen, Sport, Natur
+  - Timer & Züge-Zähler
+
+### KI-Chat
+
+- **Kai** - Dein virtueller Assistent
+  - Keyword-basierte Antworten
+  - Sprechblase mit Facts
+  - Direkter Chat
+
+### Technisch
+
+- ✅ Angular 21+ mit Standalone Components
+- ✅ Signals für State Management
+- ✅ OnPush Change Detection
+- ✅ Material Design
+- ✅ Responsive (Mobile-First)
+- ✅ Lazy Loading
+- ✅ Strict TypeScript
 
 ---
 
 ## 🚀 Installation & Ausführung
 
 ### Anforderungen
-- Node.js 22+ (empfohlen)
-- pnpm 10.32.1+
+
+- Node.js 20+
+- pnpm 10+
 
 ### Setup
 
 ```bash
-cd trivia-game
-
 # Dependencies installieren
 pnpm install
 
-# Development Server starten
+# Development Server
 pnpm start
-
-# Browser: http://localhost:4200
+# Öffne http://localhost:4200
 ```
 
-### Bauen
+### Build
 
 ```bash
 # Production Build
-pnpm run build
+pnpm build
 
 # Output: dist/trivia-game/
 ```
 
-### Tests
-
-```bash
-pnpm test
-```
-
 ---
 
-## 🎨 Design System
-
-### Material 3 Tokens (src/styles/variables.scss)
-
-```scss
-$primary-color: #6200ee;        // Purple
-$secondary-color: #03dac6;      // Teal
-$error-color: #b3261e;          // Red
-$surface-color: #fffbfe;        // Off-White
-```
-
-### Responsive Breakpoints
-
-- **sm**: 640px
-- **md**: 768px
-- **lg**: 1024px
-- **xl**: 1280px
-
-### Spacing System
+## 📁 Projektstruktur
 
 ```
-$spacing-xs: 0.25rem   // 4px
-$spacing-sm: 0.5rem    // 8px
-$spacing-md: 1rem      // 16px
-$spacing-lg: 1.5rem    // 24px
-$spacing-xl: 2rem      // 32px
+src/app/
+├── feature/
+│   ├── home/              # Startseite mit Spielen & Kai-Chat
+│   ├── quiz/              # Quiz (lazy loaded)
+│   ├── wordle/           # Wordle (lazy loaded)
+│   └── memory/           # Memory (lazy loaded)
+├── fundamentale/          # Core Models & Services
+├── shared/               # Labels, Constants, Components
+├── app.routes.ts         # Routing
+└── app.config.ts         # App Config
 ```
-
----
-
-## 📦 Core Modules
-
-### 1. **TriviaApiService** (Fundamentale)
-Kommuniziert mit Open Trivia DB API.
-
-```typescript
-constructor(private http = inject(HttpClient)) {}
-
-getQuestions(amount: 10, category?: number, difficulty?: string): Observable<ITriviaQuestion[]>
-decodeHtmlEntity(text: string): string
-```
-
-### 2. **QuizRepository** (Fundamentale)
-Mappt API-Daten zu Domain Models.
-
-```typescript
-createQuiz(amount: 10, category?, difficulty?): Observable<IQuiz>
-private mapToQuestion(apiQuestion: ITriviaQuestion, id: string): IQuestion
-private shuffleAnswers(answers: string[]): string[]
-```
-
-### 3. **QuizService** (Feature)
-State Management mit Signals.
-
-```typescript
-// Signals
-quizState = signal<IQuiz | null>(null)
-isLoading = signal<boolean>(false)
-error = signal<string | null>(null)
-
-// Computed
-currentQuestion = computed(() => ...)
-progress = computed(() => ...)
-score = computed(() => ...)
-
-// Methods
-initializeQuiz(amount, category?, difficulty?): void
-submitAnswer(answer: string): void
-moveToNext(): void
-resetQuiz(): void
-```
-
-### 4. **QuizComponent** (Feature - Main Container)
-Orchestriert Quiz-Flow mit Quiz-, Question- und Result-Components.
-
----
-
-## 🎯 Models
-
-### IQuestion
-```typescript
-{
-  id: string;
-  category: string;
-  difficulty: string;
-  type: 'multiple' | 'boolean';
-  question: string;
-  correctAnswer: string;
-  incorrectAnswers: string[];
-  allAnswers: string[];           // Shuffled
-  selectedAnswer: string | null;
-  isAnswered: boolean;
-}
-```
-
-### IQuiz
-```typescript
-{
-  id: string;
-  questions: IQuestion[];
-  currentQuestionIndex: number;
-  score: number;
-  totalQuestions: number;
-  isCompleted: boolean;
-  difficulty: string;
-}
-```
-
----
-
-## ♿ Accessibility Features
-
-- ✅ ARIA Labels auf interaktiven Elementen
-- ✅ Focus Management mit `:focus-visible`
-- ✅ Semantisches HTML (`<button>`, `<label>`, roles)
-- ✅ Screen Reader Support
-- ✅ Keyboard Navigation
-- ✅ Reduced Motion Preferences
-
----
-
-## 🔐 Security & Best Practices
-
-✅ **Strict TypeScript** - Keine `any`-Typen  
-✅ **OnPush ChangeDetection** - Optimale Performance  
-✅ **RxJS Best Practices** - switchMap, catchError  
-✅ **No Mutating Signals** - Nur `.set()` und `.update()`  
-✅ **Lazy Loading** - Feature Routes via loadChildren  
-✅ **Dependency Injection** - `inject()` statt Constructor DI  
 
 ---
 
 ## 🌐 Routing
 
-```typescript
-// Lazy Loading
-{
-  path: 'quiz',
-  loadChildren: () => import('./feature/quiz/quiz-routing').then(m => m.quizRoutes)
-}
-
-// Default Redirect
-{
-  path: '',
-  redirectTo: 'quiz',
-  pathMatch: 'full'
-}
-```
+| Pfad      | Komponente          |
+| --------- | ------------------- |
+| `/`       | Home (Spielauswahl) |
+| `/quiz`   | Quiz Setup & Spiel  |
+| `/wordle` | Wordle              |
+| `/memory` | Memory              |
 
 ---
 
-## 📚 Angular 19+ Features verwendet
+## 🎨 Design
 
-- **Standalone Components** - Keine Module
-- **Signals** - `signal()`, `computed()`, `effect()`
-- **Change Detection** - `ChangeDetectionStrategy.OnPush`
-- **Control Flow** - `@if`, `@for`, `@switch`
-- **Input/Output** - `input()`, `output()`, `input.required()`
-- **Dependency Injection** - `inject()` Funktion
-- **HTTP Client** - Neue API mit RxJS
-- **Routing** - Lazy Loading mit `loadChildren`
+- **Dark Theme** - Dunkler Hintergrund mit Gradient
+- **Farben**:
+  - Primary: #6200ee (Purple)
+  - Secondary: #03dac6 (Teal)
+  - Quiz: #6200ee
+  - Wordle: #ff9800
+  - Memory: #009688
+- **Responsive**: Mobile-optimiert mit Media Queries
 
 ---
 
-## 🎯 Next Steps
+## 🔧 Technologie-Stack
 
-- [ ] Dark/Light Theme Toggle
-- [ ] Quiz Category Selection
-- [ ] Score History/Leaderboard
-- [ ] Multiplayer Mode
-- [ ] PWA Support
-- [ ] E2E Tests mit Playwright
-- [ ] Performance Monitoring
+- Angular 21.2.4
+- Angular Material 21.2.4
+- TypeScript (strict)
+- SCSS
+- pnpm
 
 ---
 
@@ -282,11 +123,12 @@ ISC
 
 ---
 
-## 👨‍💻 Autor
+## 👨‍💻 Team
 
-Refactored by **Copilot** für moderne Angular Best Practices.
+**Kai** - IT-Abteilung
+Entwickelt innovative Web-Lösungen mit Leidenschaft und Präzision.
 
-**Erstellt:** März 2026  
-**Angular Version:** 21.2.0  
-**Material Version:** 21.2.2  
-**Node.js:** v25.8.1+
+---
+
+Erstellt: März 2026  
+Letzte Aktualisierung: März 2026

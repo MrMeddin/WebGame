@@ -1,0 +1,119 @@
+@if (!gameStarted()) {
+  <div class="snake-setup">
+    <div class="setup-header">
+      <button mat-icon-button (click)="goHome()" class="back-btn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>🐍 Snake</h1>
+    </div>
+
+    <div class="setup-content">
+      <div class="info-card">
+        <mat-icon>info</mat-icon>
+        <p>
+          Steuere die Schlange mit <strong>Pfeiltasten</strong> oder den Buttons. Iss das Essen, um
+          zu wachsen.
+        </p>
+      </div>
+
+      <button mat-raised-button color="primary" class="start-btn" (click)="startGame()">
+        <mat-icon>play_arrow</mat-icon>
+        Spiel starten
+      </button>
+
+      @if (highScore() > 0) {
+        <div class="high-score">
+          <mat-icon>emoji_events</mat-icon>
+          Highscore: {{ highScore() }}
+        </div>
+      }
+    </div>
+  </div>
+}
+
+@if (gameStarted()) {
+  <div class="snake-game">
+    <div class="game-header">
+      <button mat-icon-button (click)="restartGame()" class="back-btn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div class="game-stats">
+        <div class="stat">
+          <mat-icon>star</mat-icon>
+          <span>{{ score() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="game-board"
+      (touchstart)="handleTouchStart($event)"
+      (touchmove)="handleTouchMove($event)"
+    >
+      @for (row of grid(); track $index) {
+        @for (cell of row; track cell.x + '-' + cell.y) {
+          <div
+            class="cell"
+            [class.snake]="cell.type === 'snake'"
+            [class.food]="cell.type === 'food'"
+          ></div>
+        }
+      }
+    </div>
+
+    <div class="touch-controls">
+      <button class="touch-btn up" (touchstart)="setDirection('up')" (click)="setDirection('up')">
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
+      <div class="touch-row">
+        <button
+          class="touch-btn left"
+          (touchstart)="setDirection('left')"
+          (click)="setDirection('left')"
+        >
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <button
+          class="touch-btn down"
+          (touchstart)="setDirection('down')"
+          (click)="setDirection('down')"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+        <button
+          class="touch-btn right"
+          (touchstart)="setDirection('right')"
+          (click)="setDirection('right')"
+        >
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    @if (gameOver()) {
+      <div class="game-over-overlay">
+        <div class="game-over-card">
+          @if (gameWon()) {
+            <mat-icon class="win-icon">emoji_events</mat-icon>
+            <h2>Gewonnen! 🎉</h2>
+          } @else {
+            <mat-icon class="lose-icon">sentiment_dissatisfied</mat-icon>
+            <h2>Game Over</h2>
+          }
+          <p>Score: {{ score() }}</p>
+          <div class="actions">
+            <button mat-raised-button color="primary" (click)="startGame()">
+              <mat-icon>replay</mat-icon>
+              Nochmal
+            </button>
+            <button mat-stroked-button (click)="goHome()">
+              <mat-icon>home</mat-icon>
+              Zurück
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,58 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <img
+      src="https://api.dicebear.com/7.x/bottts/svg?seed=kai&backgroundColor=0f3460"
+      alt="Kai"
+      class="chat-avatar"
+    />
+    <div class="header-info">
+      <span class="chat-name">Kai</span>
+      <span class="chat-status">Online</span>
+    </div>
+  </div>
+
+  <div class="chat-messages" #chatContainer>
+    @for (msg of messages(); track msg.id) {
+      <div class="message" [class.user]="msg.sender === 'user'" [class.kai]="msg.sender === 'kai'">
+        @if (msg.sender === 'kai') {
+          <img
+            src="https://api.dicebear.com/7.x/bottts/svg?seed=kai&backgroundColor=0f3460"
+            alt="Kai"
+            class="msg-avatar"
+          />
+        }
+        <div class="message-bubble">
+          {{ msg.text }}
+        </div>
+      </div>
+    }
+
+    @if (isTyping()) {
+      <div class="message kai">
+        <img
+          src="https://api.dicebear.com/7.x/bottts/svg?seed=kai&backgroundColor=0f3460"
+          alt="Kai"
+          class="msg-avatar"
+        />
+        <div class="message-bubble typing">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="chat-input">
+    <input
+      type="text"
+      [ngModel]="newMessage()"
+      (ngModelChange)="newMessage.set($event)"
+      (keydown)="onKeyDown($event)"
+      placeholder="Nachricht an Kai..."
+    />
+    <button (click)="sendMessage()" [disabled]="!newMessage().trim()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

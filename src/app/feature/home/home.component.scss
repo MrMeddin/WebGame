@@ -1,6 +1,6 @@
 .home-container {
   min-height: 100vh;
-  padding: 2rem 1rem;
+  padding: 1rem;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   display: flex;
   flex-direction: column;
@@ -8,69 +8,195 @@
 }
 
 .home-header {
-  text-align: center;
-  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
   animation: fadeInDown 0.6s ease;
+}
 
-  h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0 0 0.5rem;
-    background: linear-gradient(135deg, #fff 0%, #b8b8b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+.header-left {
+  flex: 1;
+}
 
-    @media (max-width: 768px) {
-      font-size: 2rem;
-    }
+.home-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 0.25rem;
+  background: linear-gradient(135deg, #fff 0%, #b8b8b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.kai-menu {
+  position: relative;
+  z-index: 100;
+}
+
+.kai-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.3s ease;
+}
+
+.kai-btn:hover {
+  transform: scale(1.1);
+}
+
+.kai-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid #6200ee;
+  box-shadow: 0 4px 15px rgba(98, 0, 238, 0.4);
+}
+
+.kai-speech-bubble {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  min-width: 200px;
+  max-width: 280px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: bubblePop 0.3s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    border: 10px solid transparent;
+    border-bottom-color: white;
+    border-top: 0;
+  }
+}
+
+.speech-text {
+  color: #1a1a2e;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  line-height: 1.4;
+}
+
+.chat-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: #6200ee;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #3700b3;
   }
 
-  .subtitle {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
+  mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
 
-    @media (max-width: 768px) {
-      font-size: 1rem;
-    }
+.chat-wrapper {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  animation: bubblePop 0.3s ease;
+}
+
+.back-to-facts {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+
+  mat-icon {
+    color: #6200ee;
+    font-size: 1.25rem;
+  }
+}
+
+.speech-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ccc;
+  transition: background 0.3s ease;
+
+  &.active {
+    background: #6200ee;
   }
 }
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  max-width: 600px;
   width: 100%;
-  padding: 0 1rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
 }
 
 .game-card {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 1.25rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   animation: fadeInUp 0.6s ease backwards;
 
   &:nth-child(1) {
     animation-delay: 0.1s;
   }
   &:nth-child(2) {
-    animation-delay: 0.2s;
+    animation-delay: 0.15s;
   }
   &:nth-child(3) {
-    animation-delay: 0.3s;
+    animation-delay: 0.2s;
+  }
+  &:nth-child(4) {
+    animation-delay: 0.25s;
   }
 
   &::before {
@@ -79,19 +205,19 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 3px;
     background: var(--game-color);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
 
   &:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     border-color: var(--game-color);
     background: rgba(255, 255, 255, 0.1);
     box-shadow:
-      0 20px 40px rgba(0, 0, 0, 0.3),
-      0 0 30px color-mix(in srgb, var(--game-color) 30%, transparent);
+      0 15px 30px rgba(0, 0, 0, 0.3),
+      0 0 20px color-mix(in srgb, var(--game-color) 30%, transparent);
 
     &::before {
       opacity: 1;
@@ -99,12 +225,7 @@
 
     .card-icon {
       transform: scale(1.1);
-      box-shadow: 0 10px 30px color-mix(in srgb, var(--game-color) 40%, transparent);
     }
-  }
-
-  &.available {
-    cursor: pointer;
   }
 
   &.unavailable {
@@ -119,10 +240,36 @@
   }
 }
 
+.kai-tip-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  z-index: 10;
+  white-space: nowrap;
+  animation: badgePop 0.4s ease backwards;
+  animation-delay: 0.3s;
+
+  mat-icon {
+    font-size: 0.75rem;
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}
+
 .card-icon {
-  width: 70px;
-  height: 70px;
-  border-radius: 16px;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
   background: linear-gradient(
     135deg,
     var(--game-color) 0%,
@@ -131,46 +278,45 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--game-color) 30%, transparent);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px color-mix(in srgb, var(--game-color) 30%, transparent);
 
   mat-icon {
-    font-size: 2.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
+    font-size: 1.75rem;
+    width: 1.75rem;
+    height: 1.75rem;
     color: white;
   }
 }
 
 .card-content {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: white;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.25rem;
 }
 
 .card-description {
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .play-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.25rem;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   background: var(--game-color);
   color: white;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 0.9rem;
+  border-radius: 50%;
   transition: all 0.3s ease;
 
   mat-icon {
@@ -178,22 +324,17 @@
     width: 1.2rem;
     height: 1.2rem;
   }
-
-  .game-card:hover & {
-    box-shadow: 0 6px 20px color-mix(in srgb, var(--game-color) 50%, transparent);
-  }
 }
 
 .coming-soon-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.25rem;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.7);
-  border-radius: 30px;
-  font-weight: 500;
-  font-size: 0.85rem;
+  border-radius: 50%;
 
   mat-icon {
     font-size: 1rem;
@@ -202,10 +343,85 @@
   }
 }
 
+.team-section {
+  margin-top: 3rem;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  animation: fadeInUp 0.6s ease 0.3s backwards;
+}
+
+.team-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #b8b8b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.team-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.team-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 280px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: #6200ee;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.team-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, #6200ee 0%, #3700b3 100%);
+  padding: 3px;
+}
+
+.team-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.25rem;
+}
+
+.team-role {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: #6200ee;
+  background: rgba(98, 0, 238, 0.2);
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.team-description {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.5;
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
@@ -216,7 +432,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -224,77 +440,59 @@
   }
 }
 
-.team-section {
-  margin-top: 5rem;
-  text-align: center;
-  animation: fadeInUp 0.6s ease 0.4s backwards;
-}
-
-.team-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 2rem;
-  background: linear-gradient(135deg, #fff 0%, #b8b8b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.team-grid {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding: 0 1rem;
-}
-
-.team-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 2rem;
-  max-width: 350px;
-  transition: all 0.4s ease;
-
-  &:hover {
-    transform: translateY(-8px);
-    border-color: #6200ee;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+@keyframes bubblePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
-.team-avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, #6200ee 0%, #3700b3 100%);
-  padding: 4px;
+@keyframes badgePop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-20deg);
+  }
+  70% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
 }
 
-.team-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-  margin: 0 0 0.5rem;
-}
+@media (min-width: 768px) {
+  .home-container {
+    padding: 2rem;
+  }
 
-.team-role {
-  display: inline-block;
-  font-size: 0.9rem;
-  color: #6200ee;
-  background: rgba(98, 0, 238, 0.2);
-  padding: 0.3rem 1rem;
-  border-radius: 20px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
+  .home-header h1 {
+    font-size: 3rem;
+  }
 
-.team-description {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-  line-height: 1.6;
+  .subtitle {
+    font-size: 1.25rem;
+  }
+
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .game-card {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .kai-avatar {
+    width: 60px;
+    height: 60px;
+  }
 }

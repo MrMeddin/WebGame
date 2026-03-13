@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./feature/memory/memory.component').then((m) => m.MemoryComponent),
   },
   {
+    path: 'snake',
+    loadComponent: () => import('./feature/snake/snake.component').then((m) => m.SnakeComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

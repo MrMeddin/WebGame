@@ -1,8 +1,40 @@
 <div class="home-container">
-  <div class="home-header">
-    <h1>{{ labels.homeTitle }}</h1>
-    <p class="subtitle">{{ labels.homeSubtitle }}</p>
-  </div>
+  <header class="home-header">
+    <div class="header-left">
+      <h1>{{ labels.homeTitle }}</h1>
+      <p class="subtitle">{{ labels.homeSubtitle }}</p>
+    </div>
+
+    <div class="kai-menu">
+      <button class="kai-btn" (click)="toggleMenu()">
+        <img [src]="team[0].avatar" alt="Kai" class="kai-avatar" />
+      </button>
+
+      @if (menuOpen()) {
+        @if (showChat()) {
+          <div class="chat-wrapper">
+            <button class="back-to-facts" (click)="closeChat()">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <app-chat />
+          </div>
+        } @else {
+          <div class="kai-speech-bubble">
+            <p class="speech-text">{{ kaiFacts[currentFactIndex()] }}</p>
+            <button class="chat-btn" (click)="openChat()">
+              <mat-icon>chat</mat-icon>
+              Mit mir chatten
+            </button>
+            <div class="speech-dots">
+              @for (fact of kaiFacts; track $index) {
+                <span class="dot" [class.active]="$index === currentFactIndex()"></span>
+              }
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </header>
 
   <div class="games-grid">
     @for (game of games; track game.id) {
@@ -13,6 +45,13 @@
         [style.--game-color]="game.color"
         (click)="playGame(game)"
       >
+        @if (game.isKaiTip) {
+          <div class="kai-tip-badge">
+            <mat-icon>auto_awesome</mat-icon>
+            Kais Geheimtipp
+          </div>
+        }
+
         <div class="card-icon">
           <mat-icon>{{ getGameIcon(game.icon) }}</mat-icon>
         </div>
@@ -25,12 +64,10 @@
         @if (game.available) {
           <div class="play-badge">
             <mat-icon>play_arrow</mat-icon>
-            <span>{{ labels.play }}</span>
           </div>
         } @else {
           <div class="coming-soon-badge">
             <mat-icon>schedule</mat-icon>
-            <span>{{ labels.comingSoon }}</span>
           </div>
         }
       </div>
@@ -38,7 +75,7 @@
   </div>
 
   <section class="team-section">
-    <h2 class="team-title">Unser Team</h2>
+    <h2 class="team-title">Über uns</h2>
     <div class="team-grid">
       @for (member of team; track member.name) {
         <div class="team-card">
