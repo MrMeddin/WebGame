@@ -1,0 +1,122 @@
+@if (!gameStarted()) {
+  <div class="memory-setup">
+    <div class="setup-header">
+      <button mat-icon-button (click)="goHome()" class="back-btn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>Memory</h1>
+    </div>
+
+    <div class="setup-content">
+      <mat-card class="setup-card">
+        <mat-card-header>
+          <mat-card-title>Spiel einrichten</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="form-group">
+            <label class="form-label">Schwierigkeit</label>
+            <mat-radio-group
+              [ngModel]="selectedDifficulty()"
+              (ngModelChange)="selectedDifficulty.set($event)"
+              class="difficulty-group"
+            >
+              @for (diff of difficulties; track diff.value) {
+                <mat-radio-button [value]="diff.value" [color]="'primary'">
+                  {{ diff.label }} ({{ diff.gridSize }}x{{ diff.gridSize }})
+                </mat-radio-button>
+              }
+            </mat-radio-group>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Thema</label>
+            <div class="theme-grid">
+              @for (theme of themes; track theme.id) {
+                <div
+                  class="theme-option"
+                  [class.selected]="selectedTheme() === theme.id"
+                  (click)="selectedTheme.set(theme.id)"
+                >
+                  <mat-icon>{{ theme.icon }}</mat-icon>
+                  <span>{{ theme.name }}</span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <button mat-raised-button color="primary" class="start-btn" (click)="startGame()">
+            <mat-icon>play_arrow</mat-icon>
+            Spiel starten
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+}
+
+@if (gameStarted()) {
+  <div class="memory-game">
+    <div class="game-header">
+      <button mat-icon-button (click)="restartGame()" class="back-btn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div class="game-stats">
+        <div class="stat">
+          <mat-icon>timer</mat-icon>
+          <span>{{ formattedTime() }}</span>
+        </div>
+        <div class="stat">
+          <mat-icon>touch_app</mat-icon>
+          <span>{{ moves() }} Züge</span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="game-board"
+      [class.grid-4]="gridSize() === 4"
+      [class.grid-6]="gridSize() === 6"
+      [class.grid-8]="gridSize() === 8"
+    >
+      @for (card of cards(); track card.id) {
+        <div
+          class="memory-card"
+          [class.flipped]="card.isFlipped || card.isMatched"
+          (click)="flipCard(card)"
+        >
+          <div class="card-front">
+            <mat-icon>help_outline</mat-icon>
+          </div>
+          <div class="card-back">
+            {{ card.symbol }}
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (gameWon()) {
+      <div class="win-overlay">
+        <mat-card class="win-card">
+          <mat-card-content>
+            <mat-icon class="win-icon">emoji_events</mat-icon>
+            <h2>Gewonnen!</h2>
+            <p>Zeit: {{ formattedTime() }}</p>
+            <p>Züge: {{ moves() }}</p>
+            <div class="win-actions">
+              <button mat-raised-button color="primary" (click)="startGame()">
+                <mat-icon>replay</mat-icon>
+                Nochmal spielen
+              </button>
+              <button mat-stroked-button (click)="goHome()">
+                <mat-icon>home</mat-icon>
+                Zurück zur Startseite
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+  </div>
+}
