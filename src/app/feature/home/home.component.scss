@@ -63,9 +63,15 @@
   overflow: hidden;
   animation: fadeInUp 0.6s ease backwards;
 
-  &:nth-child(1) { animation-delay: 0.1s; }
-  &:nth-child(2) { animation-delay: 0.2s; }
-  &:nth-child(3) { animation-delay: 0.3s; }
+  &:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.3s;
+  }
 
   &::before {
     content: '';
@@ -83,8 +89,9 @@
     transform: translateY(-8px);
     border-color: var(--game-color);
     background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 30px color-mix(in srgb, var(--game-color) 30%, transparent);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 30px color-mix(in srgb, var(--game-color) 30%, transparent);
 
     &::before {
       opacity: 1;
@@ -116,7 +123,11 @@
   width: 70px;
   height: 70px;
   border-radius: 16px;
-  background: linear-gradient(135deg, var(--game-color) 0%, color-mix(in srgb, var(--game-color) 70%, black) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--game-color) 0%,
+    color-mix(in srgb, var(--game-color) 70%, black) 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,4 +222,79 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.team-section {
+  margin-top: 5rem;
+  text-align: center;
+  animation: fadeInUp 0.6s ease 0.4s backwards;
+}
+
+.team-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #fff 0%, #b8b8b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.team-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 0 1rem;
+}
+
+.team-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 350px;
+  transition: all 0.4s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: #6200ee;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.team-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #6200ee 0%, #3700b3 100%);
+  padding: 4px;
+}
+
+.team-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.5rem;
+}
+
+.team-role {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #6200ee;
+  background: rgba(98, 0, 238, 0.2);
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.team-description {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.6;
 }

@@ -16,7 +16,7 @@
         <div class="card-icon">
           <mat-icon>{{ getGameIcon(game.icon) }}</mat-icon>
         </div>
-        
+
         <div class="card-content">
           <h2 class="card-title">{{ game.title }}</h2>
           <p class="card-description">{{ game.description }}</p>
@@ -36,4 +36,18 @@
       </div>
     }
   </div>
+
+  <section class="team-section">
+    <h2 class="team-title">Unser Team</h2>
+    <div class="team-grid">
+      @for (member of team; track member.name) {
+        <div class="team-card">
+          <img [src]="member.avatar" [alt]="member.name" class="team-avatar" />
+          <h3 class="team-name">{{ member.name }}</h3>
+          <span class="team-role">{{ member.role }}</span>
+          <p class="team-description">{{ member.description }}</p>
+        </div>
+      }
+    </div>
+  </section>
 </div>

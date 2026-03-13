@@ -18,6 +18,13 @@ interface GameCard {
   available: boolean;
 }
 
+interface TeamMember {
+  name: string;
+  role: string;
+  description: string;
+  avatar: string;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -29,6 +36,16 @@ interface GameCard {
 export class HomeComponent {
   labels = DE_LABELS;
   getGameIcon = getGameIcon;
+
+  team: TeamMember[] = [
+    {
+      name: 'Kai',
+      role: 'IT-Abteilung',
+      description:
+        'Entwickelt innovative Web-Lösungen mit Leidenschaft und Präzision. Immer auf der Suche nach eleganten Lösungen für komplexe Probleme.',
+      avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=kai&backgroundColor=0f3460',
+    },
+  ];
 
   games: GameCard[] = [
     {
