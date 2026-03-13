@@ -23,6 +23,8 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "ssr": false,
+            "prerender": false,
             "assets": [
               {
                 "glob": "**/*",
@@ -35,6 +37,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/WebGame/",
               "budgets": [
                 {
                   "type": "initial",

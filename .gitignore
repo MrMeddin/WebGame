@@ -9,6 +9,9 @@ pnpm-debug.log*
 dist/
 out-tsc/
 
+# Angular cache
+.angular/
+
 # IDE & Editor
 .vscode/
 .idea/
