@@ -73,7 +73,7 @@ export class HomeComponent {
       icon: 'psychology',
       color: '#009688',
       route: '/memory',
-      available: false,
+      available: true,
     },
   ];
 

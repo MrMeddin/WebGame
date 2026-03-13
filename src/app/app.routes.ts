@@ -8,13 +8,15 @@ export const routes: Routes = [
   },
   {
     path: 'quiz',
-    loadChildren: () =>
-      import('./feature/quiz/quiz-routing').then((m) => m.quizRoutes),
+    loadChildren: () => import('./feature/quiz/quiz-routing').then((m) => m.quizRoutes),
   },
   {
     path: 'wordle',
-    loadComponent: () =>
-      import('./feature/wordle/wordle.component').then((m) => m.WordleComponent),
+    loadComponent: () => import('./feature/wordle/wordle.component').then((m) => m.WordleComponent),
+  },
+  {
+    path: 'memory',
+    loadComponent: () => import('./feature/memory/memory.component').then((m) => m.MemoryComponent),
   },
   {
     path: '**',
