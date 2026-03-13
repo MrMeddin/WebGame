@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+.progress-container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.progress-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.progress-value {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+mat-progress-bar {
+  border-radius: 4px;
+  overflow: hidden;
+  height: 8px;
+
+  ::ng-deep {
+    .mdc-linear-progress__buffer-bar {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .mdc-linear-progress__bar-inner {
+      border-color: #6200ee !important;
+    }
+  }
+}

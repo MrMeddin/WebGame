@@ -1,0 +1,163 @@
+<div class="quiz-setup-container">
+  <div class="setup-header">
+    <button mat-icon-button class="back-btn" (click)="goHome()" aria-label="Zurück zur Startseite">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ labels.quizSetupTitle }}</h1>
+    <p class="subtitle">{{ labels.quizSetupSubtitle }}</p>
+  </div>
+
+  <div class="setup-content">
+    <!-- API Selection Section -->
+    <section class="api-section">
+      <h2 class="section-title">{{ labels.selectApi }}</h2>
+      <p class="section-hint">Wähle eine Quiz-Quelle</p>
+      
+      <div class="api-grid">
+        @for (api of availableApis; track api.id) {
+          <div
+            class="api-card"
+            [class.selected]="setupForm.get('api')?.value === api.id"
+            [style.--api-color]="api.color"
+            (click)="selectApi(api.id)"
+            role="button"
+            tabindex="0"
+            [attr.aria-label]="api.name"
+            (keydown.enter)="selectApi(api.id)"
+            (keydown.space)="selectApi(api.id)"
+          >
+            <div class="api-icon">
+              <mat-icon>{{ api.icon }}</mat-icon>
+            </div>
+            <div class="api-info">
+              <h3 class="api-name">{{ api.name }}</h3>
+              <p class="api-description">{{ api.description }}</p>
+            </div>
+            @if (setupForm.get('api')?.value === api.id) {
+              <div class="selected-check">
+                <mat-icon>check_circle</mat-icon>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+      <h2 class="section-title">{{ labels.selectCategories }}</h2>
+      <p class="section-hint">Klicke auf eine oder mehrere Kategorien</p>
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input
+          type="text"
+          class="search-input"
+          [placeholder]="labels.searchCategories"
+          (input)="onSearchChange($event.target.value)"
+          aria-label="Kategorien durchsuchen"
+        />
+      </div>
+
+      <!-- Loading State -->
+      @if (categoriesLoading()) {
+        <div class="loading-state">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>{{ labels.categoriesLoading }}</p>
+        </div>
+      } @else {
+        <!-- Categories Grid -->
+        <div class="categories-grid">
+          @for (category of filteredCategories(); track category.id) {
+            <div
+              class="category-card"
+              [class.selected]="isCategorySelected(category.id)"
+              (click)="toggleCategory(category.id)"
+              role="button"
+              tabindex="0"
+              [attr.aria-label]="category.name"
+              (keydown.enter)="toggleCategory(category.id)"
+              (keydown.space)="toggleCategory(category.id)"
+            >
+              <div class="category-icon">{{ getCategoryIcon(category.name) }}</div>
+              <div class="category-name">{{ category.name }}</div>
+              @if (isCategorySelected(category.id)) {
+                <div class="selected-check">
+                  <mat-icon>check_circle</mat-icon>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- No Results -->
+        @if (filteredCategories().length === 0) {
+          <div class="no-results">
+            <p>{{ labels.noCategoriesFound }}</p>
+          </div>
+        }
+      }
+    </section>
+
+    <!-- Difficulty Section -->
+    <section class="difficulty-section">
+      <h2 class="section-title">{{ labels.selectDifficulty }}</h2>
+
+      <div class="difficulty-buttons">
+        @for (difficulty of difficulties; track difficulty.value) {
+          <button
+            mat-stroked-button
+            [color]="
+              setupForm.get('difficulty')?.value === difficulty.value
+                ? difficulty.color
+                : ''
+            "
+            [class.selected]="
+              setupForm.get('difficulty')?.value === difficulty.value
+            "
+            [class]="difficulty.value"
+            (click)="selectDifficulty(difficulty.value)"
+            class="difficulty-btn"
+          >
+            {{ difficulty.label }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Quiz Mode Section -->
+    <section class="quiz-mode-section">
+      <h2 class="section-title">{{ labels.quizMode }}</h2>
+
+      <div class="mode-buttons">
+        @for (mode of quizModes; track mode.value) {
+          <button
+            mat-stroked-button
+            [class.selected]="setupForm.get('isInfinite')?.value === mode.value"
+            [class.limited]="mode.value === false"
+            [class.infinite]="mode.value === true"
+            (click)="selectQuizMode(mode.value)"
+            class="mode-btn"
+          >
+            {{ mode.label }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Start Button -->
+    <div class="action-section">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="startQuiz()"
+        [disabled]="categoriesLoading()"
+        class="start-button"
+        [attr.aria-label]="labels.startQuiz"
+      >
+        {{ labels.startQuiz }}
+      </button>
+    </div>
+  </div>
+</div>

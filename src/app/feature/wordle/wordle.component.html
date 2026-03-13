@@ -1,0 +1,88 @@
+<div class="wordle-container">
+  <div class="wordle-header">
+    <button mat-icon-button class="back-btn" (click)="goHome()" aria-label="Zurück">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ labels.wordleTitle }}</h1>
+  </div>
+
+  @if (gameStatus$() === 'loading') {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>{{ labels.wordleLoading }}</p>
+    </div>
+  } @else {
+    <div class="game-board">
+      @if (errorMessage$()) {
+        <div class="error-message">{{ getErrorMessage() }}</div>
+      }
+
+      @for (row of getRows(); track $index; let rowIdx = $index) {
+        <div class="row" [class.active]="rowIdx === currentRow() && gameStatus$() === 'playing'">
+          @for (col of getCols(); track $index; let colIdx = $index) {
+            @if (rowIdx < guesses$().length) {
+              <div 
+                class="tile"
+                [class.correct]="getGuessResults(guesses$()[rowIdx])[colIdx]?.state === 'correct'"
+                [class.present]="getGuessResults(guesses$()[rowIdx])[colIdx]?.state === 'present'"
+                [class.absent]="getGuessResults(guesses$()[rowIdx])[colIdx]?.state === 'absent'"
+              >
+                {{ getGuessResults(guesses$()[rowIdx])[colIdx]?.letter }}
+              </div>
+            } @else if (rowIdx === currentRow()) {
+              <div class="tile" [class.active]="colIdx === currentGuess$().length">
+                {{ currentGuess$()[colIdx] || '' }}
+              </div>
+            } @else {
+              <div class="tile"></div>
+            }
+          }
+        </div>
+      }
+    </div>
+
+    <div class="keyboard">
+      <div class="keyboard-row">
+        @for (letter of 'QWERTZUIOP'; track letter) {
+          <button class="key" (click)="addLetter(letter)">{{ letter }}</button>
+        }
+      </div>
+      <div class="keyboard-row">
+        @for (letter of 'ASDFGHJKL'; track letter) {
+          <button class="key" (click)="addLetter(letter)">{{ letter }}</button>
+        }
+        <button class="key" (click)="removeLetter()">
+          <mat-icon>backspace</mat-icon>
+        </button>
+      </div>
+      <div class="keyboard-row">
+        @for (letter of 'YXCVBNMÖÄÜ'; track letter) {
+          <button class="key" (click)="addLetter(letter)">{{ letter }}</button>
+        }
+        <button class="key enter" (click)="submitGuess()">ENTER</button>
+      </div>
+    </div>
+
+    @if (gameStatus$() !== 'playing') {
+      <div class="game-over-overlay">
+        <div class="game-over-content">
+          @if (hasWon()) {
+            <h2 class="result-title win">{{ labels.wordleWon }}</h2>
+          } @else {
+            <h2 class="result-title lose">{{ labels.wordleLost }}</h2>
+            <p class="result-text">{{ labels.wordleWas }}: <strong>{{ targetWord$() }}</strong></p>
+          }
+          
+          <div class="action-buttons">
+            <button mat-raised-button class="play-again-btn" (click)="playAgain()">
+              {{ labels.wordlePlayAgain }}
+            </button>
+            <button mat-stroked-button class="home-btn" (click)="goHome()">
+              {{ labels.goHomeResult }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

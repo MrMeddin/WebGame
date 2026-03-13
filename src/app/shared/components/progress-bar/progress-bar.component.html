@@ -1,0 +1,19 @@
+<div
+  class="progress-container"
+  role="progressbar"
+  [attr.aria-valuenow]="value()"
+  [attr.aria-valuemin]="0"
+  [attr.aria-valuemax]="max()"
+  [attr.aria-label]="ariaLabel()"
+>
+  <div class="progress-header">
+    <span class="progress-label">{{ label() }}</span>
+    <span class="progress-value">{{ value() }} / {{ max() }}</span>
+  </div>
+
+  <mat-progress-bar
+    [value]="percentage()"
+    mode="determinate"
+    [attr.aria-hidden]="true"
+  ></mat-progress-bar>
+</div>

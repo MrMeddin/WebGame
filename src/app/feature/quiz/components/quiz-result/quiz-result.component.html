@@ -1,0 +1,38 @@
+<div class="result-container">
+  <app-quiz-card
+    title="Quiz abgeschlossen!"
+    subtitle="Hier sind deine Ergebnisse"
+    [showActions]="true"
+    primaryBtnLabel="Neues Quiz"
+    secondaryBtnLabel="Einstellung"
+    (primaryAction)="onRetake()"
+    (secondaryAction)="onGoHome()"
+  >
+    <div class="result-content">
+      <div class="score-display">
+        <div class="score-number">{{ score() }}</div>
+        <div class="score-label">von {{ total() }}</div>
+      </div>
+
+      <app-progress-bar
+        label="Endergebnis"
+        [value]="score()"
+        [max]="total()"
+      ></app-progress-bar>
+
+      <div class="result-message">
+        <p [class]="resultMessage().class">
+          {{ resultMessage().text }}
+        </p>
+      </div>
+
+      <div class="score-details">
+        <p>
+          Du hast <strong>{{ score() }} von {{ total() }}</strong>
+          Fragen richtig beantwortet.
+        </p>
+        <p>Genauigkeit: <strong>{{ accuracy() }}%</strong></p>
+      </div>
+    </div>
+  </app-quiz-card>
+</div>
