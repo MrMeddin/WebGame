@@ -1,0 +1,39 @@
+<div class="home-container">
+  <div class="home-header">
+    <h1>{{ labels.homeTitle }}</h1>
+    <p class="subtitle">{{ labels.homeSubtitle }}</p>
+  </div>
+
+  <div class="games-grid">
+    @for (game of games; track game.id) {
+      <div
+        class="game-card"
+        [class.available]="game.available"
+        [class.unavailable]="!game.available"
+        [style.--game-color]="game.color"
+        (click)="playGame(game)"
+      >
+        <div class="card-icon">
+          <mat-icon>{{ getGameIcon(game.icon) }}</mat-icon>
+        </div>
+        
+        <div class="card-content">
+          <h2 class="card-title">{{ game.title }}</h2>
+          <p class="card-description">{{ game.description }}</p>
+        </div>
+
+        @if (game.available) {
+          <div class="play-badge">
+            <mat-icon>play_arrow</mat-icon>
+            <span>{{ labels.play }}</span>
+          </div>
+        } @else {
+          <div class="coming-soon-badge">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ labels.comingSoon }}</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

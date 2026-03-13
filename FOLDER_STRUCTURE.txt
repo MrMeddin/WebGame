@@ -1,0 +1,181 @@
+Trivia Game - Angular 20 Best Practices
+========================================
+
+src/
+└── app/
+    ├── 🎯 FUNDAMENTALE LAYER (Business Logic)
+    │   ├── models/
+    │   │   ├── quiz.model.ts              # IQuestion, IQuiz
+    │   │   ├── difficulty.enum.ts         # Difficulty enum
+    │   │   └── index.ts                   # Barrel export
+    │   │
+    │   ├── services/
+    │   │   ├── trivia-api.service.ts      # Open Trivia DB HTTP client
+    │   │   ├── trivia-api.service.spec.ts # Unit tests
+    │   │   └── index.ts
+    │   │
+    │   ├── repos/
+    │   │   ├── quiz.repo.ts               # Data mapper (API → Domain)
+    │   │   └── index.ts
+    │   │
+    │   └── index.ts
+    │
+    ├── 🔧 SHARED LAYER (Reusable Components)
+    │   ├── components/
+    │   │   ├── quiz-card/
+    │   │   │   ├── quiz-card.component.ts
+    │   │   │   ├── quiz-card.component.html
+    │   │   │   ├── quiz-card.component.scss
+    │   │   │   └── [Selector: app-quiz-card]
+    │   │   │
+    │   │   ├── progress-bar/
+    │   │   │   ├── progress-bar.component.ts
+    │   │   │   ├── progress-bar.component.html
+    │   │   │   ├── progress-bar.component.scss
+    │   │   │   └── [Selector: app-progress-bar]
+    │   │   │
+    │   │   └── index.ts (Barrel export)
+    │   │
+    │   ├── pipes/                         # (Future: Custom pipes)
+    │   ├── directives/                    # (Future: Custom directives)
+    │   │
+    │   └── index.ts
+    │
+    ├── 🎮 FEATURE LAYER (Quiz - Lazy Loaded)
+    │   └── quiz/
+    │       ├── quiz-routing.ts            # Feature routes
+    │       │
+    │       ├── quiz/                      # Smart Component (Container)
+    │       │   ├── quiz.component.ts
+    │       │   ├── quiz.component.html
+    │       │   ├── quiz.component.scss
+    │       │   └── [Selector: app-quiz]
+    │       │
+    │       ├── components/                # Dumb Components (Presentational)
+    │       │   ├── question/
+    │       │   │   ├── question.component.ts
+    │       │   │   ├── question.component.html
+    │       │   │   ├── question.component.scss
+    │       │   │   └── [Selector: app-question]
+    │       │   │
+    │       │   ├── quiz-result/
+    │       │   │   ├── quiz-result.component.ts
+    │       │   │   ├── quiz-result.component.html
+    │       │   │   ├── quiz-result.component.scss
+    │       │   │   └── [Selector: app-quiz-result]
+    │       │   │
+    │       │   └── index.ts
+    │       │
+    │       └── services/
+    │           ├── quiz.service.ts        # State management (Signals)
+    │           └── index.ts
+    │
+    ├── 🎨 STYLES LAYER (Global SCSS)
+    │   ├── styles/
+    │   │   ├── variables.scss             # Design tokens
+    │   │   ├── mixins.scss                # SCSS utilities
+    │   │   └── index.scss
+    │   │
+    │   └── styles.scss                    # Global styles import
+    │
+    ├── 🏠 ROOT LEVEL
+    │   ├── app.ts                         # Root component
+    │   ├── app.html                       # Root template
+    │   ├── app.scss                       # Root styles
+    │   ├── app.routes.ts                  # App routing
+    │   ├── app.config.ts                  # Angular config
+    │   └── app.spec.ts                    # Root component tests
+    │
+    ├── main.ts                            # Bootstrap
+    └── styles.scss                        # Global entry point
+
+═══════════════════════════════════════════════════════════════
+
+📊 COMPONENT HIERARCHY
+═══════════════════════════════════════════════════════════════
+
+AppComponent (Root)
+├─ Router Outlet
+└─ Routes
+   └─ quiz-routing (Lazy Loaded)
+      └─ QuizComponent (Smart Container)
+         ├─ @if loading → mat-spinner
+         ├─ @if error → error-card
+         ├─ @if !completed
+         │  ├─ ProgressBarComponent
+         │  └─ QuestionComponent (Dumb)
+         │     ├─ input: question
+         │     └─ output: submitAnswer
+         └─ @else
+            └─ QuizResultComponent (Dumb)
+               ├─ input: score, total
+               └─ output: retake, goHome
+
+═══════════════════════════════════════════════════════════════
+
+🔄 DATA FLOW
+═══════════════════════════════════════════════════════════════
+
+User Action
+  ↓
+QuizComponent (Smart)
+  ↓
+QuizService (Signals) ← State Management
+  ├─ currentQuestion = computed()
+  ├─ progress = computed()
+  └─ score = computed()
+  ↓
+QuizRepository ← Data Mapper
+  ↓
+TriviaApiService ← HTTP
+  ↓
+Open Trivia DB API ← External API
+
+═══════════════════════════════════════════════════════════════
+
+📦 LAYER SEPARATION
+═══════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────┐
+│ Components Layer                        │
+│ (UI Rendering, User Interaction)        │
+├─────────────────────────────────────────┤
+│ Services Layer                          │
+│ (State Management, Business Logic)      │
+├─────────────────────────────────────────┤
+│ Repository/API Layer                    │
+│ (Data Mapping, HTTP)                    │
+├─────────────────────────────────────────┤
+│ Models/Types Layer                      │
+│ (Interfaces, Enums, Types)              │
+└─────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════
+
+✨ KEY PATTERNS
+═══════════════════════════════════════════════════════════════
+
+1. ONE COMPONENT PER FOLDER
+   ✓ quiz-card.component.ts
+   ✓ quiz-card.component.html
+   ✓ quiz-card.component.scss
+
+2. BARREL EXPORTS (index.ts)
+   ✓ export { QuizCardComponent } from './quiz-card/...';
+   ✓ import { QuizCardComponent } from '@app/shared/components';
+
+3. SMART/DUMB COMPONENTS
+   Smart:  QuizComponent (with Service)
+   Dumb:   QuestionComponent (only @input/@output)
+
+4. SIGNALS STATE MANAGEMENT
+   ✓ signal() for mutable state
+   ✓ computed() for derived values
+   ✓ No RxJS boilerplate needed
+
+5. STANDALONE COMPONENTS
+   ✓ No NgModule
+   ✓ Direct composition
+   ✓ Better tree-shaking
+
+═══════════════════════════════════════════════════════════════

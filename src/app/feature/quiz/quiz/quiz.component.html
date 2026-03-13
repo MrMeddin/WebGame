@@ -1,0 +1,72 @@
+<div class="quiz-container">
+  <div class="quiz-header">
+    <button mat-icon-button class="back-btn" (click)="stopQuiz()" aria-label="Quiz beenden">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Allgemeinwissen Quiz</h1>
+  </div>
+
+  @if (quizService.loading$()) {
+    <div class="loading-container" role="status" aria-label="Quiz wird geladen">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>{{ labels.loadingQuiz }}</p>
+    </div>
+  } @else if (quizService.error$()) {
+    <div class="error-container" role="alert">
+      <mat-card class="error-card">
+        <mat-card-content>
+          <p class="error-message">{{ quizService.error$() }}</p>
+          <button mat-raised-button color="primary" (click)="tryAgain()">
+            {{ labels.tryAgain }}
+          </button>
+          <button mat-stroked-button (click)="goHome()">
+            {{ labels.backToSetup }}
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  } @else if (quizService.quiz()) {
+    @if (!quizService.isCompleted()) {
+      <div class="quiz-content">
+        @if (quizService.quiz()?.isInfinite) {
+          <div class="infinite-mode-header">
+            <div class="score-display">
+              <span class="label">Score</span>
+              <span class="value">{{ quizService.score() }}</span>
+            </div>
+            <div class="answered-display">
+              <span class="label">Beantwortet</span>
+              <span class="value">{{ quizService.answeredCount() }}</span>
+            </div>
+            <button mat-icon-button (click)="stopQuiz()" aria-label="Quiz beenden" class="stop-btn">
+              <mat-icon>stop_circle</mat-icon>
+            </button>
+          </div>
+        } @else {
+          <app-progress-bar
+            label="Frage"
+            [value]="quizService.progress()"
+            [max]="quizService.totalQuestions()"
+          ></app-progress-bar>
+        }
+
+        @if (quizService.currentQuestion()) {
+          <app-question
+            [question]="quizService.currentQuestion()!"
+            (submitAnswer)="submitAnswer($event)"
+            (nextQuestion)="nextQuestion()"
+          ></app-question>
+        }
+      </div>
+    } @else {
+      <div class="result-content">
+        <app-quiz-result
+          [score]="quizService.score()"
+          [total]="quizService.totalQuestions()"
+          (retake)="retakeQuiz()"
+          (goHome)="goHome()"
+        ></app-quiz-result>
+      </div>
+    }
+  }
+</div>

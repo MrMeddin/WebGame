@@ -1,0 +1,93 @@
+<div class="question-card">
+  <!-- Question Header -->
+  <div class="question-header">
+    <span class="category-badge">{{ question().category }}</span>
+    <span class="difficulty-badge" [class]="question().difficulty.toLowerCase()">
+      {{ difficultyBadge() }}
+    </span>
+  </div>
+
+  <!-- Question Text -->
+  <h2 class="question-text">{{ question().question }}</h2>
+
+  <!-- Answers -->
+  <div class="answers-container" role="group" aria-label="Antwortoptionen">
+    @for (answer of question().allAnswers; track answer; let idx = $index) {
+      <label
+        class="answer-option"
+        [class.correct]="
+          question().isAnswered && answer === question().correctAnswer
+        "
+        [class.incorrect]="
+          question().isAnswered &&
+          selectedAnswer() === answer &&
+          answer !== question().correctAnswer
+        "
+        [class.selected]="selectedAnswer() === answer"
+        [class.answered]="question().isAnswered"
+        [attr.aria-label]="answer"
+      >
+        <input
+          type="radio"
+          [name]="'answer-' + question().id"
+          [value]="answer"
+          [ngModel]="selectedAnswer()"
+          (change)="onAnswerSelect(answer)"
+          [attr.aria-checked]="selectedAnswer() === answer"
+          [disabled]="question().isAnswered"
+          class="answer-radio"
+        />
+        <span class="answer-text">
+          {{ answer }}
+        </span>
+
+        <!-- Show correct/incorrect badge after answer -->
+        @if (question().isAnswered) {
+          @if (answer === question().correctAnswer) {
+            <span class="answer-badge correct-badge">
+              <mat-icon>check_circle</mat-icon>
+            </span>
+          }
+          @if (
+            selectedAnswer() === answer &&
+            answer !== question().correctAnswer
+          ) {
+            <span class="answer-badge incorrect-badge">
+              <mat-icon>cancel</mat-icon>
+            </span>
+          }
+        }
+      </label>
+    }
+  </div>
+
+  <!-- Feedback after answer -->
+  @if (question().isAnswered) {
+    <div
+      class="answer-feedback"
+      [class.correct]="
+        selectedAnswer() === question().correctAnswer
+      "
+    >
+      @if (selectedAnswer() === question().correctAnswer) {
+        <p class="feedback-text correct">{{ labels.wellDone }}</p>
+      } @else {
+        <p class="feedback-text incorrect">{{ labels.incorrect }}</p>
+      }
+    </div>
+  }
+
+  <!-- Action Button -->
+  <div class="action-container">
+    <button
+      mat-raised-button
+      class="action-btn"
+      [class.submit-btn]="!question().isAnswered"
+      [class.next-btn]="question().isAnswered"
+      [disabled]="!question().isAnswered && !selectedAnswer()"
+      (click)="question().isAnswered ? onNext() : onSubmit()"
+    >
+      {{ question().isAnswered ? labels.nextQuestion : labels.submitAnswer }}
+    </button>
+  </div>
+</div>
