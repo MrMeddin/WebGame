@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bored? Fight it!</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎯 Bored?</h1>
+        <p class="subtitle">Kampf die Langeweile!</p>
+      </header>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-label">Level</span>
+          <span class="stat-value" id="level">1</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">XP</span>
+          <span class="stat-value" id="xp">0 / 100</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Erledigt</span>
+          <span class="stat-value" id="completed">0</span>
+        </div>
+      </div>
+
+      <main>
+        <div class="activity-card" id="activityCard">
+          <div class="placeholder" id="placeholder">
+            <p>Drück den Button wenn du dich langweilst!</p>
+          </div>
+          <div class="activity-content hidden" id="activityContent">
+            <span class="category" id="category"></span>
+            <p class="activity-text" id="activityText"></p>
+            <button class="btn-done" id="doneBtn">✓ Erledigt</button>
+          </div>
+        </div>
+
+        <button class="btn-bored" id="boredBtn">😩 Ich langweile mich!</button>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

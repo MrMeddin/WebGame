@@ -1,0 +1,59 @@
+<div class="bored-container">
+  <div class="bored-header">
+    <button mat-icon-button (click)="goHome()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>🎯 Bored?</h1>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-label">Level</span>
+      <span class="stat-value">{{ level() }}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">XP</span>
+      <span class="stat-value">{{ xp() }} / {{ xpPerLevel() }}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Erledigt</span>
+      <span class="stat-value">{{ completed() }}</span>
+    </div>
+  </div>
+
+  <div class="activity-card" [class.has-activity]="hasActivity()">
+    @if (!hasActivity()) {
+      <div class="placeholder">
+        <p>Drück den Button wenn du dich langweilst!</p>
+      </div>
+    }
+
+    @if (hasActivity() && currentActivity(); as activity) {
+      <div class="activity-content">
+        <span class="category">{{ getCategoryName(activity.type) }}</span>
+        <p class="activity-text">{{ activity.activity }}</p>
+
+        @if (activity.type !== 'error') {
+          <button mat-raised-button color="primary" (click)="markDone()">
+            <mat-icon>check</mat-icon>
+            Erledigt
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+  <button mat-raised-button class="bored-btn" (click)="fetchActivity()" [disabled]="loading()">
+    @if (loading()) {
+      <ng-container>
+        <mat-icon class="spin">hourglass_empty</mat-icon>
+        Suche...
+      </ng-container>
+    } @else {
+      <ng-container>
+        <mat-icon>sentiment_dissatisfied</mat-icon>
+        Ich langweile mich!
+      </ng-container>
+    }
+  </button>
+</div>

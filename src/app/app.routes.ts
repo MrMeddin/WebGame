@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./feature/snake/snake.component').then((m) => m.SnakeComponent),
   },
   {
+    path: 'bored',
+    loadComponent: () => import('./feature/bored/bored.component').then((m) => m.BoredComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

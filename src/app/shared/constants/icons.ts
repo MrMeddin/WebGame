@@ -10,25 +10,26 @@ export const CATEGORY_ICONS: Record<string, string> = {
   'Science & Nature': '🌳',
   'Science: Computers': '💻',
   'Science: Mathematics': '📐',
-  'Mythology': '⚡',
-  'Sports': '⚽',
-  'Geography': '🌍',
-  'History': '🏛️',
-  'Politics': '🗳️',
-  'Art': '🎨',
-  'Celebrities': '⭐',
-  'Animals': '🐻',
-  'Vehicles': '🚗',
+  Mythology: '⚡',
+  Sports: '⚽',
+  Geography: '🌍',
+  History: '🏛️',
+  Politics: '🗳️',
+  Art: '🎨',
+  Celebrities: '⭐',
+  Animals: '🐻',
+  Vehicles: '🚗',
   'Entertainment: Comics': '💭',
   'Science: Gadgets': '⚙️',
   'Entertainment: Japanese Anime & Manga': '🎌',
-  'Entertainment: Cartoon & Animations': '🎪'
+  'Entertainment: Cartoon & Animations': '🎪',
 };
 
 export const GAME_ICONS: Record<string, string> = {
   quiz: 'quiz',
   psychology: 'psychology',
   text_fields: 'text_fields',
+  sentiment_dissatisfied: 'sentiment_dissatisfied',
 };
 
 export const getCategoryIcon = (categoryName: string): string => {

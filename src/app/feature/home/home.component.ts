@@ -106,6 +106,15 @@ export class HomeComponent {
       route: '/memory',
       available: true,
     },
+    {
+      id: 'bored',
+      title: 'Bored?',
+      description: 'Kampf die Langeweile!',
+      icon: 'sentiment_dissatisfied',
+      color: '#e94560',
+      route: '/bored',
+      available: true,
+    },
   ];
 
   constructor(private router: Router) {

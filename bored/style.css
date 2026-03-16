@@ -1,0 +1,178 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #1a1a2e;
+  --card-bg: #16213e;
+  --primary: #e94560;
+  --secondary: #0f3460;
+  --text: #eee;
+  --accent: #4ecca3;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 480px;
+  width: 100%;
+  padding: 2rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: var(--primary);
+}
+
+.subtitle {
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.activity-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 2rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--secondary);
+  transition: border-color 0.3s;
+}
+
+.activity-card.has-activity {
+  border-color: var(--accent);
+}
+
+.placeholder {
+  text-align: center;
+  color: #666;
+}
+
+.activity-content {
+  text-align: center;
+}
+
+.activity-content.hidden {
+  display: none;
+}
+
+.category {
+  display: inline-block;
+  background: var(--secondary);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.activity-text {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.btn-bored {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.btn-bored:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(233, 69, 96, 0.4);
+}
+
+.btn-bored:active {
+  transform: translateY(0);
+}
+
+.btn-bored:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-done {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.btn-done:hover {
+  transform: scale(1.05);
+}
+
+.loading {
+  color: var(--accent);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
